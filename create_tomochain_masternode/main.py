@@ -1,5 +1,6 @@
 from typing import Dict
 import os
+import sys
 
 from jinja2 import Template
 import click
@@ -66,3 +67,9 @@ def ask() -> Dict[str, str]:
         '[?] Expose WebSocket',
     )
     return answers
+
+
+if __name__ == '__main__':
+    # frozen app fix
+    if getattr(sys, 'frozen', False):
+        entrypoint(sys.argv[1:])
