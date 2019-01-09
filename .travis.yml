@@ -16,7 +16,7 @@ script:
 
 before_deploy:
   - poetry build
-  - poetry run pyinstaller --onefile ./create_tomochain_masternode/main.py -n create-tomochain-masternode
+  - pyinstaller --onefile ./create_tomochain_masternode/main.py -n create-tomochain-masternode
 deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
