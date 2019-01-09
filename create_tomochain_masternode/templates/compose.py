@@ -2,9 +2,8 @@ compose = """version: "3.4"
 
 services:
 
-  masternode:
+  masternode_{{ name }}:
     image: tomochain/node:stable
-    restart: always
     environment:
       IDENTITY: $IDENTITY
       PRIVATE_KEY: $PRIVATE_KEY
@@ -15,15 +14,19 @@ services:
       NETSTATS_PORT: 443
       WS_SECRET: {{ ws_secret }}
     volumes:
-      - $DATA_PATH:/tomochain/data
+      - $DATA:/tomochain/data
     ports:
       - 30303:30303/tcp
       - 30303:30303/udp
-      {% for item in ports -%}
-      - {{ item }}:{{ item }}
-      {% endfor %}
+      {%- if expose_rpc %}
+      - 8545:8545
+      {%- endif %}
+      {%- if expose_ws %}
+      - 8546:8546
+      {%- endif %}
+    restart: always
 
-  metrics:
+  metrics_{{ name }}:
     image: tomochain/telegraf:stable
     hostname: $ADDRESS
     environment:
@@ -33,5 +36,11 @@ services:
       - /sys:/rootfs/sys:ro
       - /proc:/rootfs/proc:ro
       - /etc:/rootfs/etc:ro
+    restart: always
+
+{% if storage == "volume" -%}
+volumes:
+  {{ data }}:
+{%- endif %}
 
 """
