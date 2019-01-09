@@ -14,6 +14,7 @@ authors = ["etienne-napoleone <etienne@tomochain.com>"]
 python = "^3.5"
 inquirer = "^2.5"
 click = "^7.0"
+jinja2 = "^2.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"

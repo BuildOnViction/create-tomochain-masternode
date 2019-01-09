@@ -1,27 +1,27 @@
-version: "3.4"
+compose = """version: "3.4"
 
 services:
 
   masternode:
     image: tomochain/node:stable
+    restart: always
     environment:
       IDENTITY: $IDENTITY
       PRIVATE_KEY: $PRIVATE_KEY
       BOOTNODES: {{ bootnodes }}
       NETWORK_ID: {{ network_id }}
-      VERBOSITY: {{ verbosity }}
+      VERBOSITY: 3
       NETSTATS_HOST: stats.tomochain.com
       NETSTATS_PORT: 443
       WS_SECRET: {{ ws_secret }}
+    volumes:
+      - $DATA_PATH:/tomochain/data
     ports:
       - 30303:30303/tcp
       - 30303:30303/udp
-      {% for item in navigation %}
+      {% for item in ports -%}
       - {{ item }}:{{ item }}
       {% endfor %}
-    volumes:
-      - $DATA_PATH:/tomochain/data
-    restart: always
 
   metrics:
     image: tomochain/telegraf:stable
@@ -33,3 +33,5 @@ services:
       - /sys:/rootfs/sys:ro
       - /proc:/rootfs/proc:ro
       - /etc:/rootfs/etc:ro
+
+"""
