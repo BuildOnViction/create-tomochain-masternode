@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "create-tomochain-masternode"
-version = "0.1.0"
+version = "0.1.0-beta"
 description = "Set up a TomoChain masternode by running one command."
 readme = "README.md"
 license = "GPL-3.0+"
@@ -12,17 +12,18 @@ authors = ["etienne-napoleone <etienne@tomochain.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.5"
-inquirer = "^2.5"
+click = "^7.0"
+jinja2 = "^2.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
 flake8 = "^3.6"
 coverage = "^4.5"
 coveralls = "^1.5"
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+pyinstaller = "^3.4"
 
 [tool.poetry.scripts]
 create-tomochain-masternode = "create_tomochain_masternode.main:entrypoint"
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
