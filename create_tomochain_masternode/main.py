@@ -34,7 +34,7 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
         os.makedirs(masternode_path)
     with open(f'{masternode_path}/docker-compose.yml', 'w') as compose_file:
         print(compose_content, file=compose_file)
-    with open(f'{masternode_path}/env.yml', 'w') as env_file:
+    with open(f'{masternode_path}/.env.yml', 'w') as env_file:
         print(env_content, file=env_file)
 
 
