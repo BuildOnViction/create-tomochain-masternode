@@ -17,11 +17,15 @@ script:
 before_deploy:
   - poetry build
   - pyinstaller --onefile ./create_tomochain_masternode/main.py -n create-tomochain-masternode
+  - mkdir bin
+  - mv dist/create-tomochain-masternode bin/create-tomochain-masternode
 deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
     file_glob: true
-    file: dist/*
+    file:
+    - dist/*
+    - bin/*
     skip_cleanup: true
     on:
       tags: true
