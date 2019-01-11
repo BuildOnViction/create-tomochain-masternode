@@ -19,6 +19,9 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
     """Command line interface entrypoint"""
     env = envs.testnet if testnet else envs.mainnet
     masternode_path = os.path.join(os.getcwd(), masternode_name)
+    if not is_folder_empty(masternode_path):
+        error('Folder is not empty.')
+        sys.exit(1)
     display(
         'Creating a new masternode in '
         f'{click.style(masternode_path, fg="green")}.',
@@ -37,9 +40,23 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
         print(env_content, file=env_file)
 
 
+def is_folder_empty(path: str) -> bool:
+    try:
+        return False if os.listdir(path) else True
+    except FileNotFoundError:
+        return True
+
+
 def display(message: str, spacing: int = 0) -> None:
     newlines = '\n' * spacing
     click.echo(f'{newlines}{message}{newlines}')
+
+
+def error(message: str) -> None:
+    display(
+        f'{click.style("error: ", fg="red")}{message}',
+        spacing=1
+    )
 
 
 def ask() -> Dict[str, str]:
