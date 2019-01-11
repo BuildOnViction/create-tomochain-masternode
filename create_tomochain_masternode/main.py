@@ -166,6 +166,7 @@ def success(masternode_name: str, masternode_path: str) -> None:
         spacing=1
     )
 
+
 if __name__ == '__main__':
     # frozen app fix
     if getattr(sys, 'frozen', False):
