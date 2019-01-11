@@ -45,19 +45,23 @@ def display(message: str, spacing: int = 0) -> None:
 def ask() -> Dict[str, str]:
     """Prompt users for parameters"""
     answers = {}
-    answers['name'] = click.prompt('[?] Name')
-    answers['private_key'] = click.prompt('[?] Private key', hide_input=True)
+    bullet = f'{click.style("?", fg="cyan")}'
+    answers['name'] = click.prompt(f'{bullet} Name')
+    answers['private_key'] = click.prompt(
+        f'{bullet} Private key',
+        hide_input=True
+    )
     answers['address'] = click.prompt(
-        '[?] Address',
+        f'{bullet} Address',
         value_proc=lambda x: x.strip('0x')
     )
     answers['storage'] = click.prompt(
-        '[?] Storage',
+        f'{bullet} Storage',
         type=click.Choice(['volume', 'path']),
         default='path'
     )
     answers['data'] = click.prompt(
-        f'[?] Chaindata {answers["storage"]}',
+        f'{bullet} Chaindata {answers["storage"]}',
         type=click.Path(
             exists=True,
             file_okay=False,
@@ -65,10 +69,10 @@ def ask() -> Dict[str, str]:
         ) if answers["storage"] == 'path' else click.STRING
     )
     answers['expose_rpc'] = click.confirm(
-        '[?] Expose RPC',
+        f'{bullet} Expose RPC',
     )
     answers['expose_ws'] = click.confirm(
-        '[?] Expose WebSocket',
+        f'{bullet} Expose WebSocket',
     )
     return answers
 
