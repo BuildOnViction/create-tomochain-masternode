@@ -19,11 +19,10 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
     """Command line interface entrypoint"""
     env = envs.testnet if testnet else envs.mainnet
     masternode_path = os.path.join(os.getcwd(), masternode_name)
-    click.echo(
-        '\n'
+    display(
         'Creating a new masternode in '
-        f'{click.style(masternode_path, fg="green")}.'
-        '\n'
+        f'{click.style(masternode_path, fg="green")}.',
+        spacing=1
     )
     answers = ask()
     compose_template = Template(templates.compose)
@@ -36,6 +35,11 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
         print(compose_content, file=compose_file)
     with open(f'{masternode_path}/.env', 'w') as env_file:
         print(env_content, file=env_file)
+
+
+def display(message: str, spacing: int = 0) -> None:
+    newlines = '\n' * spacing
+    click.echo(f'{newlines}{message}{newlines}')
 
 
 def ask() -> Dict[str, str]:
