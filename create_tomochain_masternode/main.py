@@ -32,12 +32,16 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
     compose_content = compose_template.render(**answers, **env)
     env_template = Template(templates.env)
     env_content = env_template.render(**answers, **env)
-    if not os.path.exists(masternode_path):
-        os.makedirs(masternode_path)
-    with open(f'{masternode_path}/docker-compose.yml', 'w') as compose_file:
-        print(compose_content, file=compose_file)
-    with open(f'{masternode_path}/.env', 'w') as env_file:
-        print(env_content, file=env_file)
+    try:
+        if not os.path.exists(masternode_path):
+            os.makedirs(masternode_path)
+        with open(f'{masternode_path}/docker-compose.yml', 'w') as file:
+            print(compose_content, file=file)
+        with open(f'{masternode_path}/.env', 'w') as file:
+            print(env_content, file=file)
+    except Exception:
+        error('Could not create files.')
+    success(masternode_name, masternode_path)
 
 
 def is_folder_empty(path: str) -> bool:
@@ -47,14 +51,22 @@ def is_folder_empty(path: str) -> bool:
         return True
 
 
-def display(message: str, spacing: int = 0) -> None:
-    newlines = '\n' * spacing
-    click.echo(f'{newlines}{message}{newlines}')
+def display(
+    message: str,
+    spacing_top: int = 0,
+    spacing_bottom: int = 0,
+    spacing: int = 0,
+    padding: int = 0,
+) -> None:
+    newlines_top = '\n' * spacing_top if not spacing else '\n' * spacing
+    newlines_bottom = '\n' * spacing_bottom if not spacing else '\n' * spacing
+    leftpad = ' ' * padding
+    click.echo(f'{newlines_top}{leftpad}{message}{newlines_bottom}')
 
 
 def error(message: str) -> None:
     display(
-        f'{click.style("error: ", fg="red")}{message}',
+        f'{click.style("! ", fg="red")}{message}',
         spacing=1
     )
 
@@ -93,6 +105,66 @@ def ask() -> Dict[str, str]:
     )
     return answers
 
+
+def success(masternode_name: str, masternode_path: str) -> None:
+    display(
+        f'Success! Created {masternode_name} at {masternode_path}\n'
+        'Inside that directory you can run several commands:',
+        spacing_top=1
+    )
+    display(
+        f'{click.style("docker-compose up|down", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'{click.style("docker-compose ps", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'List your masternode\'s containers',
+        padding=3
+    )
+    display(
+        f'Create|remove your masternode\'s containers',
+        padding=3
+    )
+    display(
+        f'{click.style("docker-compose stop|start [SERVICE...]", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'Stop|start your masternode\'s containers',
+        padding=3
+    )
+    display(
+        f'{click.style("docker-compose logs [SERVICES...]", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'List your masternode\'s containers',
+        padding=3
+    )
+    display(
+        f'We suggest that you begin by typing:',
+        spacing_top=1,
+    )
+    display(
+        f'{click.style("cd", fg="cyan")} {masternode_name}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'{click.style("docker-compose up -d", fg="cyan")}',
+        padding=2
+    )
+    display(
+        f'May the rewards be with you!',
+        spacing=1
+    )
 
 if __name__ == '__main__':
     # frozen app fix
