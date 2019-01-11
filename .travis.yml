@@ -26,9 +26,8 @@ deploy:
     on:
       tags: true
       python: 3.6
-  - provider: pypi
-    user: $PYPI_USERNAME
-    password: $PYPI_PASSWORD
+  - provider: script
+    script: poetry publish -u "$PYPI_USERNAME" -p "$PYPI_PASSWORD" -n
     skip_cleanup: true
     on:
       tags: true
