@@ -118,16 +118,16 @@ def success(masternode_name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
+        f'Create|remove your masternode\'s containers',
+        padding=3
+    )
+    display(
         f'{click.style("docker-compose ps", fg="cyan")}',
         spacing_top=1,
         padding=2
     )
     display(
         f'List your masternode\'s containers',
-        padding=3
-    )
-    display(
-        f'Create|remove your masternode\'s containers',
         padding=3
     )
     display(
