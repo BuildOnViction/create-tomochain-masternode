@@ -78,23 +78,23 @@ def ask() -> Dict[str, str]:
     answers['name'] = click.prompt(f'{bullet} Name')
     answers['private_key'] = click.prompt(
         f'{bullet} Private key',
-        hide_input=True
+        hide_input=True,
     )
     answers['address'] = click.prompt(
         f'{bullet} Address',
-        value_proc=lambda x: x.strip('0x')
+        value_proc=lambda x: x.strip('0x'),
     )
     answers['storage'] = click.prompt(
         f'{bullet} Storage',
         type=click.Choice(['volume', 'path']),
-        default='path'
+        default='path',
     )
     answers['data'] = click.prompt(
         f'{bullet} Chaindata {answers["storage"]}',
         type=click.Path(
             exists=True,
             file_okay=False,
-            resolve_path=True
+            resolve_path=True,
         ) if answers["storage"] == 'path' else click.STRING
     )
     answers['expose_rpc'] = click.confirm(
@@ -102,6 +102,12 @@ def ask() -> Dict[str, str]:
     )
     answers['expose_ws'] = click.confirm(
         f'{bullet} Expose WebSocket',
+    )
+    answers['logging_level'] = click.prompt(
+        f'{bullet} Logging level',
+        type=click.Choice(['error', 'info', 'debug']),
+        default='info',
+        value_proc=logging_name_to_int,
     )
     return answers
 
@@ -165,6 +171,17 @@ def success(masternode_name: str, masternode_path: str) -> None:
         f'May the rewards be with you!',
         spacing=1
     )
+
+
+def logging_name_to_int(name: str) -> int:
+    if name == 'error':
+        return 2
+    elif name == 'info':
+        return 3
+    elif name == 'debug':
+        return 4
+    else:
+        return 5
 
 
 if __name__ == '__main__':
