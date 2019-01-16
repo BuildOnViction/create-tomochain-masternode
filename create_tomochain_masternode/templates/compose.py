@@ -9,7 +9,7 @@ services:
       PRIVATE_KEY: $PRIVATE_KEY
       BOOTNODES: {{ bootnodes }}
       NETWORK_ID: {{ network_id }}
-      VERBOSITY: 3
+      VERBOSITY: {{ logging_level }}
       NETSTATS_HOST: stats.tomochain.com
       NETSTATS_PORT: 443
       WS_SECRET: {{ ws_secret }}
