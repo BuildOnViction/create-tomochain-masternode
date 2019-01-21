@@ -9,16 +9,17 @@ from create_tomochain_masternode import __version__, envs,  templates
 
 
 @click.command(help='Set up a TomoChain masternode by running one command.')
-@click.argument('masternode_name', type=click.Path(
+@click.argument('name', type=click.Path(
     file_okay=False,
     resolve_path=True
 ))
 @click.option('--testnet', is_flag=True, help='Testnet instead of mainnet.')
 @click.version_option(version=__version__)
-def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
+def entrypoint(name: click.Path, testnet: bool) -> None:
     """Command line interface entrypoint"""
     env = envs.testnet if testnet else envs.mainnet
-    masternode_path = os.path.join(os.getcwd(), masternode_name)
+    masternode_path = name
+    masternode_name = os.path.basename(os.path.normpath(name))
     if not is_folder_empty(masternode_path):
         error('Folder is not empty.')
         sys.exit(1)
@@ -29,9 +30,13 @@ def entrypoint(masternode_name: click.Path, testnet: bool) -> None:
     )
     answers = ask()
     compose_template = Template(templates.compose)
-    compose_content = compose_template.render(**answers, **env)
+    compose_content = compose_template.render(
+        name=masternode_name,
+        **answers,
+        **env,
+    )
     env_template = Template(templates.env)
-    env_content = env_template.render(**answers, **env)
+    env_content = env_template.render(name=masternode_name, **answers, **env)
     try:
         if not os.path.exists(masternode_path):
             os.makedirs(masternode_path)
@@ -75,19 +80,18 @@ def ask() -> Dict[str, str]:
     """Prompt users for parameters"""
     answers = {}
     bullet = f'{click.style("?", fg="cyan")}'
-    answers['name'] = click.prompt(f'{bullet} Name')
     answers['private_key'] = click.prompt(
-        f'{bullet} Private key',
+        f'{bullet} Coinbase private key',
         hide_input=True,
     )
     answers['address'] = click.prompt(
-        f'{bullet} Address',
+        f'{bullet} Coinbase address',
         value_proc=lambda x: x.strip('0x'),
     )
     answers['storage'] = click.prompt(
         f'{bullet} Storage',
-        type=click.Choice(['volume', 'path']),
-        default='path',
+        type=click.Choice(['docker volume', 'host directory']),
+        default='host directory',
     )
     answers['data'] = click.prompt(
         f'{bullet} Chaindata {answers["storage"]}',
@@ -112,9 +116,9 @@ def ask() -> Dict[str, str]:
     return answers
 
 
-def success(masternode_name: str, masternode_path: str) -> None:
+def success(name: str, masternode_path: str) -> None:
     display(
-        f'Success! Created {masternode_name} at {masternode_path}\n'
+        f'Success! Created {name} at {masternode_path}\n'
         'Inside that directory you can run several commands:',
         spacing_top=1
     )
@@ -159,7 +163,7 @@ def success(masternode_name: str, masternode_path: str) -> None:
         spacing_top=1,
     )
     display(
-        f'{click.style("cd", fg="cyan")} {masternode_name}',
+        f'{click.style("cd", fg="cyan")} {name}',
         spacing_top=1,
         padding=2
     )
