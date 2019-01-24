@@ -36,7 +36,7 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
         **env,
     )
     env_template = Template(templates.env)
-    env_content = env_template.render(name=masternode_name, **answers, **env)
+    env_content = env_template.render(**answers, **env)
     try:
         if not os.path.exists(masternode_path):
             os.makedirs(masternode_path)
@@ -84,10 +84,6 @@ def ask() -> Dict[str, str]:
         f'{bullet} Coinbase private key',
         hide_input=True,
     )
-    answers['address'] = click.prompt(
-        f'{bullet} Coinbase address',
-        value_proc=lambda x: x.strip('0x'),
-    )
     answers['storage'] = click.prompt(
         f'{bullet} Storage',
         type=click.Choice(['docker volume', 'host directory']),
@@ -99,7 +95,7 @@ def ask() -> Dict[str, str]:
             exists=True,
             file_okay=False,
             resolve_path=True,
-        ) if answers["storage"] == 'path' else click.STRING
+        ) if answers["storage"] == 'host directory' else click.STRING
     )
     answers['expose_rpc'] = click.confirm(
         f'{bullet} Expose RPC',
