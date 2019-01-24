@@ -26,7 +26,7 @@ services:
       {%- endif %}
     restart: always
 
-{% if storage == "volume" -%}
+{% if storage == "docker volume" -%}
 volumes:
   {{ data }}:
 {%- endif %}

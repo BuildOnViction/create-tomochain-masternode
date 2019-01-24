@@ -95,7 +95,7 @@ def ask() -> Dict[str, str]:
             exists=True,
             file_okay=False,
             resolve_path=True,
-        ) if answers["storage"] == 'path' else click.STRING
+        ) if answers["storage"] == 'host directory' else click.STRING
     )
     answers['expose_rpc'] = click.confirm(
         f'{bullet} Expose RPC',
