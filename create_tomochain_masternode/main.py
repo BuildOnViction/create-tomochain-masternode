@@ -36,7 +36,7 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
         **env,
     )
     env_template = Template(templates.env)
-    env_content = env_template.render(name=masternode_name, **answers, **env)
+    env_content = env_template.render(**answers, **env)
     try:
         if not os.path.exists(masternode_path):
             os.makedirs(masternode_path)
@@ -83,10 +83,6 @@ def ask() -> Dict[str, str]:
     answers['private_key'] = click.prompt(
         f'{bullet} Coinbase private key',
         hide_input=True,
-    )
-    answers['address'] = click.prompt(
-        f'{bullet} Coinbase address',
-        value_proc=lambda x: x.strip('0x'),
     )
     answers['storage'] = click.prompt(
         f'{bullet} Storage',

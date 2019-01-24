@@ -1,5 +1,5 @@
 # create-tomochain-masternode
-Set up a modern web app by running one command.
+Set up a TomoChain masternode by running one command.
 
 ## Installation
 
@@ -47,8 +47,6 @@ Follow the wizard by replying to the following questions:
 - **Coinbase private key**:
   Your masternode coinbase account private key.
   This is the account you configured your masternode with, not the one holding your funds.
-- **Coinbase address**:
-  Your masternode coinbase account address.
 - **Storage**:
   Either `docker volume` if you want to use one, or `host directory` if you want to bind mount a specific location of your filesystem.
 - **Chaindata**:
