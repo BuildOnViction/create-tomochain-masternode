@@ -1,5 +1,6 @@
 from typing import Dict
 import os
+import shutil
 import sys
 
 from jinja2 import Template
@@ -28,6 +29,7 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
         f'{click.style(masternode_path, fg="green")}.',
         spacing=1
     )
+    preflight()
     answers = ask()
     compose_template = Template(templates.compose)
     compose_content = compose_template.render(
@@ -74,6 +76,21 @@ def error(message: str) -> None:
         f'{click.style("! ", fg="red")}{message}',
         spacing=1
     )
+
+
+def preflight() -> None:
+    """Display message if one preflight check is missing"""
+    bullet = f'{click.style("!", fg="red")}'
+    if not shutil.which('docker'):
+        display(
+            f'{bullet} docker not found on your system',
+            spacing_bottom=1,
+        )
+    if not shutil.which('docker-compose'):
+        display(
+            f'{bullet} docker-compose not found on your system',
+            spacing_bottom=1,
+        )
 
 
 def ask() -> Dict[str, str]:
