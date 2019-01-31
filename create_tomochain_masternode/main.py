@@ -52,6 +52,7 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
 
 
 def is_folder_empty(path: str) -> bool:
+    """Check if folder is empty or not"""
     try:
         return False if os.listdir(path) else True
     except FileNotFoundError:
@@ -65,6 +66,7 @@ def display(
     spacing: int = 0,
     padding: int = 0,
 ) -> None:
+    """Printing helper function"""
     newlines_top = '\n' * spacing_top if not spacing else '\n' * spacing
     newlines_bottom = '\n' * spacing_bottom if not spacing else '\n' * spacing
     leftpad = ' ' * padding
@@ -72,6 +74,7 @@ def display(
 
 
 def error(message: str) -> None:
+    """Error helper function"""
     display(
         f'{click.style("! ", fg="red")}{message}',
         spacing=1
@@ -79,18 +82,11 @@ def error(message: str) -> None:
 
 
 def preflight() -> None:
-    """Display message if one preflight check is missing"""
-    bullet = f'{click.style("!", fg="red")}'
+    """Display errors if preflight checks are missing"""
     if not shutil.which('docker'):
-        display(
-            f'{bullet} docker not found on your system',
-            spacing_bottom=1,
-        )
+        error('Docker not found on your system.')
     if not shutil.which('docker-compose'):
-        display(
-            f'{bullet} docker-compose not found on your system',
-            spacing_bottom=1,
-        )
+        error('Docker-compose not found on your system.')
 
 
 def ask() -> Dict[str, str]:
@@ -130,6 +126,7 @@ def ask() -> Dict[str, str]:
 
 
 def success(name: str, masternode_path: str) -> None:
+    """Display instruction text when finished with success"""
     display(
         f'Success! Created {name} at {masternode_path}\n'
         'Inside that directory you can run several commands:',
@@ -191,6 +188,7 @@ def success(name: str, masternode_path: str) -> None:
 
 
 def logging_name_to_int(name: str) -> int:
+    """Transform logging name to numerical level for tomo client"""
     if name == 'error':
         return 2
     elif name == 'info':
