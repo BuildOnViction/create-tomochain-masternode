@@ -32,13 +32,9 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
     preflight()
     answers = ask()
     compose_template = Template(templates.compose)
-    compose_content = compose_template.render(
-        name=masternode_name,
-        **answers,
-        **env,
-    )
+    compose_content = compose_template.render(**answers, **env)
     env_template = Template(templates.env)
-    env_content = env_template.render(**answers, **env)
+    env_content = env_template.render(name=masternode_name, **answers, **env)
     try:
         if not os.path.exists(masternode_path):
             os.makedirs(masternode_path)
