@@ -134,8 +134,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'Create|remove your masternode\'s containers',
-        padding=3
+        f'Create|remove your masternode',
+        padding=2
     )
     display(
         f'{click.style("docker-compose ps", fg="cyan")}',
@@ -143,8 +143,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'List your masternode\'s containers',
-        padding=3
+        f'Check if your masternode is running',
+        padding=2
     )
     display(
         f'{click.style("docker-compose stop|start [SERVICE...]", fg="cyan")}',
@@ -152,8 +152,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'Stop|start your masternode\'s containers',
-        padding=3
+        f'Stop|start your masternode',
+        padding=2
     )
     display(
         f'{click.style("docker-compose logs [SERVICES...]", fg="cyan")}',
@@ -161,8 +161,17 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'List your masternode\'s containers',
-        padding=3
+        f'View your masternode logs',
+        padding=2
+    )
+    display(
+        f'{click.style("docker-compose --help", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'View all the possible docker-compose commands',
+        padding=2
     )
     display(
         f'We suggest that you begin by typing:',
