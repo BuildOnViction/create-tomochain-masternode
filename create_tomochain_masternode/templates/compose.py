@@ -2,7 +2,7 @@ compose = """version: "3.4"
 
 services:
 
-  masternode_{{ name }}:
+  masternode:
     image: tomochain/node:stable
     environment:
       IDENTITY: $IDENTITY
@@ -26,19 +26,7 @@ services:
       {%- endif %}
     restart: always
 
-  metrics_{{ name }}:
-    image: tomochain/telegraf:stable
-    hostname: $ADDRESS
-    environment:
-      METRICS_ENDPOINT: {{ metrics_endpoint }}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys:/rootfs/sys:ro
-      - /proc:/rootfs/proc:ro
-      - /etc:/rootfs/etc:ro
-    restart: always
-
-{% if storage == "volume" -%}
+{% if storage == "docker volume" -%}
 volumes:
   {{ data }}:
 {%- endif %}

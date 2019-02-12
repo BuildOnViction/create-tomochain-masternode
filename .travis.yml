@@ -10,9 +10,7 @@ install:
 
 script:
   - flake8 .
-  # - coverage run --source create-tomochain-masternode -m pytest -v
-  # - coverage report
-  # - coveralls
+  - python -m pytest
 
 before_deploy:
   - poetry build

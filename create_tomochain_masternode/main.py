@@ -1,5 +1,6 @@
 from typing import Dict
 import os
+import shutil
 import sys
 
 from jinja2 import Template
@@ -28,13 +29,10 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
         f'{click.style(masternode_path, fg="green")}.',
         spacing=1
     )
+    preflight()
     answers = ask()
     compose_template = Template(templates.compose)
-    compose_content = compose_template.render(
-        name=masternode_name,
-        **answers,
-        **env,
-    )
+    compose_content = compose_template.render(**answers, **env)
     env_template = Template(templates.env)
     env_content = env_template.render(name=masternode_name, **answers, **env)
     try:
@@ -50,6 +48,7 @@ def entrypoint(name: click.Path, testnet: bool) -> None:
 
 
 def is_folder_empty(path: str) -> bool:
+    """Check if folder is empty or not"""
     try:
         return False if os.listdir(path) else True
     except FileNotFoundError:
@@ -63,6 +62,7 @@ def display(
     spacing: int = 0,
     padding: int = 0,
 ) -> None:
+    """Printing helper function"""
     newlines_top = '\n' * spacing_top if not spacing else '\n' * spacing
     newlines_bottom = '\n' * spacing_bottom if not spacing else '\n' * spacing
     leftpad = ' ' * padding
@@ -70,10 +70,19 @@ def display(
 
 
 def error(message: str) -> None:
+    """Error helper function"""
     display(
         f'{click.style("! ", fg="red")}{message}',
         spacing=1
     )
+
+
+def preflight() -> None:
+    """Display errors if preflight checks are missing"""
+    if not shutil.which('docker'):
+        error('Docker not found on your system.')
+    if not shutil.which('docker-compose'):
+        error('Docker-compose not found on your system.')
 
 
 def ask() -> Dict[str, str]:
@@ -83,10 +92,6 @@ def ask() -> Dict[str, str]:
     answers['private_key'] = click.prompt(
         f'{bullet} Coinbase private key',
         hide_input=True,
-    )
-    answers['address'] = click.prompt(
-        f'{bullet} Coinbase address',
-        value_proc=lambda x: x.strip('0x'),
     )
     answers['storage'] = click.prompt(
         f'{bullet} Storage',
@@ -99,7 +104,7 @@ def ask() -> Dict[str, str]:
             exists=True,
             file_okay=False,
             resolve_path=True,
-        ) if answers["storage"] == 'path' else click.STRING
+        ) if answers["storage"] == 'host directory' else click.STRING
     )
     answers['expose_rpc'] = click.confirm(
         f'{bullet} Expose RPC',
@@ -117,6 +122,7 @@ def ask() -> Dict[str, str]:
 
 
 def success(name: str, masternode_path: str) -> None:
+    """Display instruction text when finished with success"""
     display(
         f'Success! Created {name} at {masternode_path}\n'
         'Inside that directory you can run several commands:',
@@ -128,8 +134,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'Create|remove your masternode\'s containers',
-        padding=3
+        f'Create|remove your masternode',
+        padding=2
     )
     display(
         f'{click.style("docker-compose ps", fg="cyan")}',
@@ -137,8 +143,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'List your masternode\'s containers',
-        padding=3
+        f'Check if your masternode is running',
+        padding=2
     )
     display(
         f'{click.style("docker-compose stop|start [SERVICE...]", fg="cyan")}',
@@ -146,8 +152,8 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'Stop|start your masternode\'s containers',
-        padding=3
+        f'Stop|start your masternode',
+        padding=2
     )
     display(
         f'{click.style("docker-compose logs [SERVICES...]", fg="cyan")}',
@@ -155,8 +161,17 @@ def success(name: str, masternode_path: str) -> None:
         padding=2
     )
     display(
-        f'List your masternode\'s containers',
-        padding=3
+        f'View your masternode logs',
+        padding=2
+    )
+    display(
+        f'{click.style("docker-compose --help", fg="cyan")}',
+        spacing_top=1,
+        padding=2
+    )
+    display(
+        f'View all the possible docker-compose commands',
+        padding=2
     )
     display(
         f'We suggest that you begin by typing:',
@@ -178,6 +193,7 @@ def success(name: str, masternode_path: str) -> None:
 
 
 def logging_name_to_int(name: str) -> int:
+    """Transform logging name to numerical level for tomo client"""
     if name == 'error':
         return 2
     elif name == 'info':

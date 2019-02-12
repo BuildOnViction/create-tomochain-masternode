@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "create-tomochain-masternode"
-version = "0.3.0-beta"
+version = "1.0.0"
 description = "Set up a TomoChain masternode by running one command."
 readme = "README.md"
 license = "GPL-3.0+"
@@ -14,6 +14,7 @@ authors = ["etienne-napoleone <etienne@tomochain.com>"]
 python = "^3.5"
 click = "^7.0"
 jinja2 = "^2.10"
+pyyaml = "^3.13"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
