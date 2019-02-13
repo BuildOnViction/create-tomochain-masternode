@@ -7,6 +7,8 @@ Requires:
 - Docker
 - Docker-compose
 
+You may choose one of the following methods:
+
 ### Binary
 
 Download `create-tomochain-masternode` from the [latest release](https://github.com/tomochain/create-tomochain-masternode/releases/latest).
