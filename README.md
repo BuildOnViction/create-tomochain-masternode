@@ -44,35 +44,52 @@ create-tomochain-masternode tomochain09
 ```
 
 Follow the wizard by replying to the following questions:
+
 - **Coinbase private key**:
+
   Your masternode coinbase account private key.
   This is the account you configured your masternode with, not the one holding your funds.
+
 - **Storage**:
+
   Either `docker volume` if you want to use one, or `host directory` if you want to bind mount a specific location of your filesystem.
+
 - **Chaindata**:
-  The name of the docker volume that will be used, or the path to the directory to bind mount, depending on your choice to the last question.
+
+  The name of the docker volume that will be used or the path to the directory to bind mount, depending on your answer to the last question.
+
 - **Expose RPC**:
+
   If you want to expose or not port `8545`.
   It is the RPC api to your node.
   It should be only exposed if you have a specific reason to do so.
   The masternode owner is responsible of proxing and securing the RPC api as it should not be directly exposed to the internet.
+
 - **Expose WebSocket**:
+
   If you want to expose or not port `8546`.
   It is the WebSocket api to your node.
   It should be only exposed if you have a specific reason to do so.
   The masternode owner is responsible of proxing and securing the WebSocket api as it should not be directly exposed to the internet.
+
 - **Loging level**:
+
   Set the logging level of the TomoChain container to error, info or debug.
   Info or Error is usually a good logging level.
-  Only use the debug level if you a good reason, it will generate a lot of output.
+  Only use the debug level if you have a good reason to do so.
+  It will generate a lot of output and increase ressource usage.
 
 Once finished, you will get a folder named after your masternode (in our case "tomochain09") with two files.
 
-`docker-compose.yml` which contains the instructions for docker compose to know how to configure your masternode container.
+`docker-compose.yml`
 
-`.env` which contains the configuration made from your answers to the question.
+Which contains the instructions for docker compose to know how to configure your masternode container.
 
-Now that we have docker-compose configured to run our node, we just need to start it.
+`.env`
+
+Which contains the configuration made from your answers to the question.
+
+Now that we generated the correct initial configuration for docker-compose, we just need to start our node.
 
 ```bash
 docker-compose up -d
@@ -83,3 +100,5 @@ You can check that your masternode is running with the `ps` sub-command.
 ```bash
 docker-compose ps
 ```
+
+For more docker-compose commands, use `docker-compose --help` or refer to their [documentation](https://docs.docker.com/compose/reference/overview/).
