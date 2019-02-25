@@ -7,24 +7,26 @@ Requires:
 - Docker
 - Docker-compose
 
-You may choose one of the following methods:
+You may choose one of the following installation methods:
 
-### Binary
+1)  **Binary installation method**
 
-Download `create-tomochain-masternode` from the [latest release](https://github.com/tomochain/create-tomochain-masternode/releases/latest).
+    Download `create-tomochain-masternode` from the [latest release](https://github.com/tomochain/create-tomochain-masternode/releases/latest).
 
-```bash
-chmod +x create-tomochain-masternode
-mv create-tomochain-masternode /usr/local/bin/
-```
+       ```bash
+       chmod +x create-tomochain-masternode
+       mv create-tomochain-masternode /usr/local/bin/
+       ```
 
-### Pypi
+**OR**
 
-Requires Python >= 3.6.
+2)  **Pypi installation method**
 
-```bash
-pip3 install --user create-tomochain-masternode
-```
+    Requires Python >= 3.6.
+
+       ```bash
+       pip3 install --user create-tomochain-masternode
+       ```
 
 ## Usage
 
