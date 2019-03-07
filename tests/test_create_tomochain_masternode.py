@@ -14,7 +14,7 @@ def runner():
 
 
 def test_version():
-    assert __version__ == '1.0.0'
+    assert __version__ == '1.1.0'
 
 
 def test_produced_yml(runner):
