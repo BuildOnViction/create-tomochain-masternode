@@ -2,7 +2,7 @@ compose = """version: "3.4"
 
 services:
 
-  masternode:
+  tomochain:
     image: tomochain/node:stable
     environment:
       IDENTITY: $IDENTITY
