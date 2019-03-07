@@ -112,12 +112,12 @@ def ask() -> Dict[str, str]:
     answers['expose_ws'] = click.confirm(
         f'{bullet} Expose WebSocket',
     )
-    answers['logging_level'] = click.prompt(
+    answers['logging_level'] = logging_name_to_int(click.prompt(
         f'{bullet} Logging level',
         type=click.Choice(['error', 'info', 'debug']),
         default='info',
-        value_proc=logging_name_to_int,
-    )
+    ))
+    print(answers['logging_level'])
     return answers
 
 
@@ -194,6 +194,7 @@ def success(name: str, masternode_path: str) -> None:
 
 def logging_name_to_int(name: str) -> int:
     """Transform logging name to numerical level for tomo client"""
+    print(name)
     if name == 'error':
         return 2
     elif name == 'info':
