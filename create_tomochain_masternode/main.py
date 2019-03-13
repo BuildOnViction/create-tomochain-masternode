@@ -117,7 +117,6 @@ def ask() -> Dict[str, str]:
         type=click.Choice(['error', 'info', 'debug']),
         default='info',
     ))
-    print(answers['logging_level'])
     return answers
 
 
@@ -194,7 +193,6 @@ def success(name: str, masternode_path: str) -> None:
 
 def logging_name_to_int(name: str) -> int:
     """Transform logging name to numerical level for tomo client"""
-    print(name)
     if name == 'error':
         return 2
     elif name == 'info':
