@@ -104,8 +104,12 @@ def ask() -> Dict[str, str]:
             exists=True,
             file_okay=False,
             resolve_path=True,
-        ) if answers["storage"] == 'host directory' else click.STRING
+        ) if answers['storage'] == 'host directory' else click.STRING
     )
+    if answers['storage'] == 'docker volume':
+        answers['external'] = str(click.confirm(
+            f'{bullet} The volume already exists',
+        ))
     answers['expose_rpc'] = click.confirm(
         f'{bullet} Expose RPC',
     )
