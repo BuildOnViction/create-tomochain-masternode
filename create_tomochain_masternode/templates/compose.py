@@ -25,10 +25,11 @@ services:
       - 8546:8546
       {%- endif %}
     restart: always
-
-{% if storage == "docker volume" -%}
+{% if storage == "docker volume" %}
 volumes:
   {{ data }}:
-{%- endif %}
-
+    {%- if external == "True" %}
+    external: true
+    {%- endif %}
+{% endif %}
 """
