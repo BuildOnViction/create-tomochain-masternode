@@ -14,7 +14,7 @@ services:
       NETSTATS_PORT: 443
       WS_SECRET: {{ ws_secret }}
     volumes:
-      - $DATA:/tomochain
+      - $DATA:/tomochain/data/tomo/chaindata
     ports:
       - 30303:30303/tcp
       - 30303:30303/udp
