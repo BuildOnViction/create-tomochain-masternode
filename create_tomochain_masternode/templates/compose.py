@@ -10,7 +10,7 @@ services:
       BOOTNODES: {{ bootnodes }}
       NETWORK_ID: {{ network_id }}
       VERBOSITY: {{ logging_level }}
-      NETSTATS_HOST: stats.tomochain.com
+      NETSTATS_HOST: wss://stats.tomochain.com
       NETSTATS_PORT: 443
       WS_SECRET: {{ ws_secret }}
     volumes:
