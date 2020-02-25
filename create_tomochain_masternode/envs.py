@@ -16,15 +16,10 @@ mainnet = {
 testnet = {
     'metrics_endpoint': 'https://metrics.testnet.tomochain.com',
     'network_id': '89',
-    'ws_secret': 'anna-coal-flee-carrie-zip-hhhh-tarry-laue-felon-rhine',
+    'ws_secret': '9tlu4EymcTrEzaqWpSxh3KSa926au8',
     'bootnodes': (
-        'enode://4d3c2cc0ce7135c1778c6f1cfda623ab44b4b6db55289543d48ecfde'
-        '7d7111fd420c42174a9f2fea511a04cf6eac4ec69b4456bfaaae0e5bd236107d'
-        '3172b013@52.221.28.223:30301,enode://298780104303fcdb37a84c5702e'
-        'bd9ec660971629f68a933fd91f7350c54eea0e294b0857f1fd2e8dba2869fcc3'
-        '6b83e6de553c386cf4ff26f19672955d9f312@13.251.101.216:30301,enode'
-        '://46dba3a8721c589bede3c134d755eb1a38ae7c5a4c69249b8317c55adc8d4'
-        '6a369f98b06514ecec4b4ff150712085176818d18f59a9e6311a52dbe68cff5b'
-        '2ae@13.250.94.232:30301'
+        'enode://ba966140e161ad416a7bd7c75dc695e0a41232723e2b19cbbf651883'
+        'ef5e8f2528801b17b9d63152814d219a58a4fcc3e3c877486e64057523f67140'
+        '92348efa@195.154.150.210:30301'
     )
 }
